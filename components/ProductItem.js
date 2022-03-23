@@ -11,10 +11,10 @@ import React from 'react';
 import NextLink from 'next/link';
 import { urlForThumbnail } from '../utils/image';
 
-export default function ProductItem() {
+export default function ProductItem({ product }) {
   return (
     <Card>
-      <NextLink href={`/product/${product.slug}`} passHref>
+      <NextLink href={`/product/${product.slug.current}`} passHref>
         <CardActionArea>
           <CardMedia
             component="img"
