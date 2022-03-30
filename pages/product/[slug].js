@@ -1,9 +1,14 @@
 import {
   Alert,
   Box,
+  Button,
+  Card,
   CircularProgress,
   Grid,
   Link,
+  List,
+  ListItem,
+  Rating,
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
@@ -12,10 +17,11 @@ import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import classes from '../../utils/classes';
 import client from '../../utils/client';
+import { urlFor } from '../../utils/image';
 
 export default function ProductScreen(props) {
   const { slug } = props;
-  const { state, setState } = useState({
+  const [state, setState] = useState({
     product: null,
     loading: true,
     error: '',
@@ -46,9 +52,9 @@ export default function ProductScreen(props) {
       ) : (
         <Box>
           <Box sx={classes.section}>
-            <NextLink>
+            <NextLink href="/" passHref>
               <Link>
-                <Typography>&larr;back to result</Typography>
+                <Typography>&larr; back to result</Typography>
               </Link>
             </NextLink>
           </Box>
@@ -61,6 +67,58 @@ export default function ProductScreen(props) {
                 width={640}
                 height={640}
               />
+            </Grid>
+            <Grid md={3} xs={12}>
+              <List>
+                <ListItem>
+                  <Typography component="h1" variant="h1">
+                    {product.name}
+                  </Typography>
+                </ListItem>
+                <ListItem>Category: {product.category}</ListItem>
+                <ListItem>
+                  <Rating value={product.rating} readOnly></Rating>
+                  <Typography sx={classes.smallText}>
+                    ({product.numReviews} reviews)
+                  </Typography>
+                </ListItem>
+                <ListItem>
+                  <Typography>Description: {product.description}</Typography>
+                </ListItem>
+              </List>
+            </Grid>
+            <Grid item md={3} xs={12}>
+              <Card>
+                <List>
+                  <ListItem>
+                    <Grid container>
+                      <Grid item xs={6}>
+                        <Typography>Price:</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography>${product.price}</Typography>
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                  <ListItem>
+                    <Grid container>
+                      <Grid item xs={6}>
+                        <Typography>Status:</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography>
+                          {product.countInStock > 0
+                            ? 'In Stock'
+                            : 'Unavailable'}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                  <ListItem>
+                    <Button variant="contained">Add to Cart</Button>
+                  </ListItem>
+                </List>
+              </Card>
             </Grid>
           </Grid>
         </Box>

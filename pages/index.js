@@ -30,7 +30,7 @@ export default function Home() {
       ) : error ? (
         <Alert variant="danger">{error}</Alert>
       ) : (
-        <Grid container spacing={3}>
+        <Grid container spacing={4}>
           {products.map((product) => (
             <Grid item md={3} key={product.slug}>
               <ProductItem product={product}></ProductItem>
