@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Layout from '../components/Layout';
-import { useForm, controller, Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import NextLink from 'next/link';
 import Form from '../components/Form';
 import {
@@ -16,22 +16,28 @@ import axios from 'axios';
 import jsCookie from 'js-cookie';
 import { useRouter } from 'next/router';
 import { Store } from '../utils/Store';
+import { getError } from '../utils/error';
 
 export default function RegisterScreen() {
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
   const router = useRouter();
+  const { redirect } = router.query;
+
   useEffect(() => {
     if (userInfo) {
-      router.push('/');
+      router.push(redirect || '/');
     }
-  }, [router, userInfo]);
+  }, [router, userInfo, redirect]);
+
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
+
   const { enqueueSnackbar } = useSnackbar();
+
   const submitHandler = async ({ name, email, password, confirmPassword }) => {
     if (password !== confirmPassword) {
       enqueueSnackbar("Passwords don't match", { variant: 'error' });
@@ -45,9 +51,9 @@ export default function RegisterScreen() {
       });
       dispatch({ type: 'USER_LOGIN', payload: data });
       jsCookie.set('userInfo', JSON.stringify(data));
-      router.push('/');
+      router.push(redirect || '/');
     } catch (err) {
-      enqueueSnackbar(err.message, { variant: 'error' });
+      enqueueSnackbar(getError(err), { variant: 'error' });
     }
   };
   return (
@@ -77,7 +83,7 @@ export default function RegisterScreen() {
                   helperText={
                     errors.name
                       ? errors.name.type === 'minLength'
-                        ? 'Name is more than 1'
+                        ? 'Name length is more than 1'
                         : 'Name is required'
                       : ''
                   }
@@ -86,6 +92,7 @@ export default function RegisterScreen() {
               )}
             ></Controller>
           </ListItem>
+
           <ListItem>
             <Controller
               name="email"
@@ -100,7 +107,7 @@ export default function RegisterScreen() {
                   variant="outlined"
                   fullWidth
                   id="email"
-                  label="email"
+                  label="Email"
                   inputProps={{ type: 'email' }}
                   error={Boolean(errors.email)}
                   helperText={
@@ -122,7 +129,7 @@ export default function RegisterScreen() {
               defaultValue=""
               rules={{
                 required: true,
-                minLength: 8,
+                minLength: 6,
               }}
               render={({ field }) => (
                 <TextField
@@ -151,7 +158,7 @@ export default function RegisterScreen() {
               defaultValue=""
               rules={{
                 required: true,
-                minLength: 8,
+                minLength: 6,
               }}
               render={({ field }) => (
                 <TextField
@@ -180,7 +187,7 @@ export default function RegisterScreen() {
           </ListItem>
           <ListItem>
             Already have an account?{' '}
-            <NextLink href={'/login'} passHref>
+            <NextLink href={`/login?redirect=${redirect || '/'}`} passHref>
               <Link>Login</Link>
             </NextLink>
           </ListItem>
