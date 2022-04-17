@@ -1,4 +1,3 @@
-import { LineAxisOutlined, Router } from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -43,7 +42,7 @@ export default function ProductScreen(props) {
       try {
         const product = await client.fetch(
           `
-              *[_type == "product" && slug.current == $slug] [0]`,
+            *[_type == "product" && slug.current == $slug][0]`,
           { slug }
         );
         setState({ ...state, product, loading: false });
@@ -59,7 +58,8 @@ export default function ProductScreen(props) {
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
     if (data.countInStock < quantity) {
-      enqueueSnackbar('Sorry. Product is Out of Stock', { variant: 'error' });
+      enqueueSnackbar('Sorry. Product is out of stock', { variant: 'error' });
+      return;
     }
     dispatch({
       type: 'CART_ADD_ITEM',
@@ -89,7 +89,7 @@ export default function ProductScreen(props) {
           <Box sx={classes.section}>
             <NextLink href="/" passHref>
               <Link>
-                <Typography>&larr; back to result</Typography>
+                <Typography>back to result</Typography>
               </Link>
             </NextLink>
           </Box>
@@ -111,6 +111,7 @@ export default function ProductScreen(props) {
                   </Typography>
                 </ListItem>
                 <ListItem>Category: {product.category}</ListItem>
+                <ListItem>Brand: {product.brand}</ListItem>
                 <ListItem>
                   <Rating value={product.rating} readOnly></Rating>
                   <Typography sx={classes.smallText}>
@@ -128,7 +129,7 @@ export default function ProductScreen(props) {
                   <ListItem>
                     <Grid container>
                       <Grid item xs={6}>
-                        <Typography>Price:</Typography>
+                        <Typography>Price</Typography>
                       </Grid>
                       <Grid item xs={6}>
                         <Typography>${product.price}</Typography>
@@ -138,12 +139,12 @@ export default function ProductScreen(props) {
                   <ListItem>
                     <Grid container>
                       <Grid item xs={6}>
-                        <Typography>Status:</Typography>
+                        <Typography>Status</Typography>
                       </Grid>
                       <Grid item xs={6}>
                         <Typography>
                           {product.countInStock > 0
-                            ? 'In Stock'
+                            ? 'In stock'
                             : 'Unavailable'}
                         </Typography>
                       </Grid>
@@ -155,7 +156,7 @@ export default function ProductScreen(props) {
                       fullWidth
                       variant="contained"
                     >
-                      Add to Cart
+                      Add to cart
                     </Button>
                   </ListItem>
                 </List>
@@ -170,8 +171,6 @@ export default function ProductScreen(props) {
 
 export function getServerSideProps(context) {
   return {
-    props: {
-      slug: context.params.slug,
-    },
+    props: { slug: context.params.slug },
   };
 }
