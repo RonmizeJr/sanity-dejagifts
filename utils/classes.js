@@ -35,6 +35,9 @@ const classes = {
   fullWidth: {
     width: '100%',
   },
+  sort: {
+    marginRight: 1,
+  },
 };
 
 export default classes;

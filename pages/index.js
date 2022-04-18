@@ -1,13 +1,13 @@
-import { Alert, CircularProgress, Grid, Typography } from '@mui/material';
+import { Alert, CircularProgress, Grid } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 import { useContext, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import client from '../utils/client';
 import ProductItem from '../components/ProductItem';
-import { Store } from '../utils/Store';
+import client from '../utils/client';
 import { urlForThumbnail } from '../utils/image';
-import { useSnackbar } from 'notistack';
+import { Store } from '../utils/Store';
 
 export default function Home() {
   const {
@@ -34,12 +34,14 @@ export default function Home() {
     };
     fetchData();
   }, []);
+
   const addToCartHandler = async (product) => {
     const existItem = cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
     if (data.countInStock < quantity) {
-      enqueueSnackbar('Sorry. Product is Out of Stock', { variant: 'error' });
+      enqueueSnackbar('Sorry. Product is out of stock', { variant: 'error' });
+      return;
     }
     dispatch({
       type: 'CART_ADD_ITEM',
@@ -58,6 +60,7 @@ export default function Home() {
     });
     router.push('/cart');
   };
+
   return (
     <Layout>
       {loading ? (
@@ -65,9 +68,9 @@ export default function Home() {
       ) : error ? (
         <Alert variant="danger">{error}</Alert>
       ) : (
-        <Grid container spacing={4}>
+        <Grid container spacing={3}>
           {products.map((product) => (
-            <Grid item md={3} key={product.slug}>
+            <Grid item md={4} key={product.slug}>
               <ProductItem
                 product={product}
                 addToCartHandler={addToCartHandler}
