@@ -1,7 +1,5 @@
 import nc from 'next-connect';
 import bcrypt from 'bcryptjs';
-import axios from 'axios';
-import config from '../../../utils/config';
 import { signToken } from '../../../utils/auth';
 import client from '../../../utils/client';
 

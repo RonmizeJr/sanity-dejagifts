@@ -15,7 +15,7 @@ const classes = {
     textAlign: 'center',
   },
   appbar: {
-    background: 'radial-gradient(#fff, #32CD32)',
+    background: 'radial-gradient(#fff, #008000)',
     '& a': {
       color: '#000',
       marginLeft: 1,
@@ -29,7 +29,7 @@ const classes = {
     fontSize: '1.5rem',
   },
   navbarButton: {
-    color: '#ffffff',
+    color: '#000',
     textTransform: 'initial',
   },
   fullWidth: {
@@ -37,6 +37,34 @@ const classes = {
   },
   sort: {
     marginRight: 1,
+  },
+  visible: {
+    display: 'initial',
+  },
+  hidden: {
+    display: 'none',
+  },
+  // search
+
+  searchForm: {
+    border: '1px solid #ffffff',
+    backgroundColor: '#ffffff',
+    borderRadius: 1,
+  },
+  searchInput: {
+    paddingLeft: 1,
+    color: '#000000',
+    '& ::placeholder': {
+      color: '#606060',
+    },
+  },
+  searchButton: {
+    backgroundColor: '#f8c040',
+    padding: 1,
+    borderRadius: '0 5px 5px 0',
+    '& span': {
+      color: '#000000',
+    },
   },
 };
 
