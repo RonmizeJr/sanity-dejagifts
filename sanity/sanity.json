@@ -1,7 +1,8 @@
 {
   "root": true,
   "project": {
-    "name": "dejagifts"
+    "name": "dejagifts",
+    "basePath": "http://www.dejagifts.com"
   },
   "api": {
     "projectId": "pe0rk5pc",
@@ -15,9 +16,7 @@
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [

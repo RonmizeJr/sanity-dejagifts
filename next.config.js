@@ -2,12 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['cdn.sanity.io'],
+    domains: ['dejagifts.sanity.io'],
   },
 };
 
 module.exports = nextConfig;
 
 module.exports = {
-  disDir: 'build',
+  images: {
+    loader: 'imgix',
+    path: '/',
+  },
 };

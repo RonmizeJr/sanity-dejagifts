@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
+    "export": "next build && next export",
     "lint": "next lint"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "jsonwebtoken": "^8.5.1",
     "next": "12.1.0",
     "next-connect": "^0.12.2",
+    "next-optimized-images": "^1.4.2",
     "notistack": "^2.0.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
